@@ -1,0 +1,19 @@
+version: '2.4'
+
+services:
+  # AVclass service
+  alsvc_avclass:
+    image: testing/assemblyline-service-avclass:latest
+    environment:
+      - SERVICE_API_HOST=http://al_service_server:5003
+
+  # MetaDefenderDelegate service
+  alsvc_metadefenderdelegate:
+    image: testing/assemblyline-service-metadefenderdelegate:latest
+    environment:
+      - SERVICE_API_HOST=http://al_service_server:5003
+
+networks:
+  default:
+    external: true
+    name: al_registration
