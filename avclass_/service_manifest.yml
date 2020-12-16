@@ -6,9 +6,8 @@ description: >
 accepts: .*
 rejects: empty|metadata/.*
 
-# TODO Which stage to get MetaDefender and VirusTotal?
-stage: 
-category: 
+stage: SECONDARY
+category: Static Analysis
 
 file_required: false
 timeout: 10
