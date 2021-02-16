@@ -6,8 +6,7 @@ from collections import namedtuple
 
 from assemblyline_v4_service.common.base import ServiceBase
 from assemblyline_v4_service.common.request import ServiceRequest
-from assemblyline_v4_service.common.result \
-    import Result, ResultSection, BODY_FORMAT, Heuristic
+from assemblyline_v4_service.common.result import Result, ResultSection, BODY_FORMAT, Heuristic
 
 from avclass.avclass2.lib.avclass2_common import SampleInfo, AvLabels
 
@@ -17,9 +16,9 @@ DEFAULT_EXP_PATH = AVC2_PATH/'data/default.expansion'
 DEFAULT_TAX_PATH = AVC2_PATH/'data/default.taxonomy'
 
 DATA_PATH = Path(resource_filename(__name__, 'data'))
-TAG_PATH = DATA_PATH/'vt.tagging'
-EXP_PATH = DATA_PATH/'vt.expansion'
-TAX_PATH = DATA_PATH/'vt.taxonomy'
+TAG_PATH = DATA_PATH/'avclass.tagging'
+EXP_PATH = DATA_PATH/'avclass.expansion'
+TAX_PATH = DATA_PATH/'avclass.taxonomy'
 
 AVClassTag = namedtuple('AVClassTag', ['name', 'path', 'category', 'rank'])
 AVClassTags = namedtuple('AVClassTags', ['tags', 'is_pup', 'family'])
@@ -62,10 +61,7 @@ class AVclass(ServiceBase):
                           key=lambda f: f[1], reverse=True)
         family = families[0][0] if families else None
 
-        return AVClassTags(avc_tags,
-                           self._av_labels.is_pup(tags,
-                                                  self._av_labels.taxonomy),
-                           family)
+        return AVClassTags(avc_tags, self._av_labels.is_pup(tags, self._av_labels.taxonomy), family)
 
     def execute(self, request: ServiceRequest) -> Dict[str, Any]:
         result = Result()
@@ -77,8 +73,7 @@ class AVclass(ServiceBase):
             return
 
         sample_info = SampleInfo(request.md5, request.sha1, request.sha256,
-                                 [(f'av{i}', label) for i, label
-                                  in enumerate(tags)], [])
+                                 [(f'av{i}', label) for i, label in enumerate(tags)], [])
         self.log.debug(f'SampleInfo: {sample_info}')
         av_tags = self._get_avclass_tags(sample_info)
         if av_tags is None:
@@ -101,8 +96,6 @@ class AVclass(ServiceBase):
 
         for tag in av_tags.tags:
             heur_id = AVCLASS_CATEGORY[tag.category][1]
-
-
             tag_section = ResultSection(
                 f'AVclass extracted tag: {tag.name}',
                 body=json.dumps({'name': tag.name,
