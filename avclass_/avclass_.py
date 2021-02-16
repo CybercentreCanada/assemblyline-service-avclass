@@ -6,26 +6,31 @@ from collections import namedtuple
 
 from assemblyline_v4_service.common.base import ServiceBase
 from assemblyline_v4_service.common.request import ServiceRequest
-from assemblyline_v4_service.common.result import Result, ResultSection
-from assemblyline_v4_service.common.result import BODY_FORMAT
+from assemblyline_v4_service.common.result \
+    import Result, ResultSection, BODY_FORMAT, Heuristic
 
 from avclass.avclass2.lib.avclass2_common import SampleInfo, AvLabels
 
 AVC2_PATH = Path(resource_filename(__name__, 'avclass/avclass2'))
-TAG_PATH = AVC2_PATH/'data/default.tagging'
-EXP_PATH = AVC2_PATH/'data/default.expansion'
-TAX_PATH = AVC2_PATH/'data/default.taxonomy'
+DEFAULT_TAG_PATH = AVC2_PATH/'data/default.tagging'
+DEFAULT_EXP_PATH = AVC2_PATH/'data/default.expansion'
+DEFAULT_TAX_PATH = AVC2_PATH/'data/default.taxonomy'
+
+DATA_PATH = Path(resource_filename(__name__, 'data'))
+TAG_PATH = DATA_PATH/'vt.tagging'
+EXP_PATH = DATA_PATH/'vt.expansion'
+TAX_PATH = DATA_PATH/'vt.taxonomy'
 
 AVClassTag = namedtuple('AVClassTag', ['name', 'path', 'category', 'rank'])
 AVClassTags = namedtuple('AVClassTags', ['tags', 'is_pup', 'family'])
 
 AVCLASS_CATEGORY = {
-    'FAM': 'family',
-    'BEH': 'behavior',
-    'CLASS': 'classification',
-    'FILE': 'file',
-    'GEN': 'generic',
-    'UNK': 'unknown',
+    'FAM': ('family', 1),
+    'BEH': ('behavior', 2),
+    'CLASS': ('classification', 3),
+    'FILE': ('file', 4),
+    'GEN': ('generic', None),
+    'UNK': ('unknown', None),
 }
 
 
@@ -81,20 +86,35 @@ class AVclass(ServiceBase):
                                              'family information'))
             return
 
-        section = ResultSection('AVclass extracted malware family: '
-                                f'{av_tags.family}')
-        section.set_body(json.dumps({'family': av_tags.family,
-                                     'PUP?': av_tags.is_pup}),
-                         BODY_FORMAT.KEY_VALUE)
+        body = {'is_pup': av_tags.is_pup}
+        tags = dict()
+        if av_tags.family is not None:
+            title = f'AVclass extracted malware family: {av_tags.family}'
+            body['family'] = av_tags.family
+            tags['attribution.family'] = [av_tags.family]
+        else:
+            title = 'AVclass was unable to extract a malware family'
+            body['family'] = av_tags.family
+        section = ResultSection(title, json.dumps(body),
+                                body_format=BODY_FORMAT.KEY_VALUE,
+                                tags=tags)
 
         for tag in av_tags.tags:
-            tag_section = ResultSection(f'AVclass extracted tag: {tag.name}')
-            tag_section.set_body(
-                json.dumps({'name': tag.name,
-                            'category': AVCLASS_CATEGORY[tag.category],
-                            'path': tag.path,
-                            'rank': tag.rank}),
-                BODY_FORMAT.KEY_VALUE)
+            heur_id = AVCLASS_CATEGORY[tag.category][1]
+
+
+            tag_section = ResultSection(
+                f'AVclass extracted tag: {tag.name}',
+                body=json.dumps({'name': tag.name,
+                                 'category': AVCLASS_CATEGORY[tag.category][0],
+                                 'path': tag.path,
+                                 'rank': tag.rank}),
+                body_format=BODY_FORMAT.KEY_VALUE,
+                heuristic=Heuristic(heur_id) if heur_id is not None else None)
+
+            if tag.category == 'BEH':
+                section.add_tag('file.behaviour', tag.name)
+
             section.add_subsection(tag_section)
 
         result.add_section(section)
