@@ -1,8 +1,9 @@
-from typing import Optional, Dict, Any
 import json
-from pathlib import Path
-from pkg_resources import resource_filename
 from collections import namedtuple
+from pathlib import Path
+from typing import Optional, Dict, Any
+
+from pkg_resources import resource_filename
 
 from assemblyline_v4_service.common.base import ServiceBase
 from assemblyline_v4_service.common.request import ServiceRequest
@@ -11,9 +12,9 @@ from assemblyline_v4_service.common.result import Result, ResultSection, BODY_FO
 from avclass_.avclass.avclass2.lib.avclass2_common import SampleInfo, AvLabels
 
 DATA_PATH = Path(resource_filename(__name__, 'data'))
-TAG_PATH = DATA_PATH/'avclass.tagging'
-EXP_PATH = DATA_PATH/'avclass.expansion'
-TAX_PATH = DATA_PATH/'avclass.taxonomy'
+TAG_PATH = DATA_PATH / 'avclass.tagging'
+EXP_PATH = DATA_PATH / 'avclass.expansion'
+TAX_PATH = DATA_PATH / 'avclass.taxonomy'
 
 AVClassTag = namedtuple('AVClassTag', ['name', 'path', 'category', 'rank'])
 AVClassTags = namedtuple('AVClassTags', ['tags', 'is_pup', 'family'])
@@ -31,6 +32,7 @@ AVCLASS_CATEGORY = {
 class AVclass(ServiceBase):
     def __init__(self, config: Optional[Dict] = None) -> None:
         super().__init__(config)
+        self._av_labels = None
 
     def start(self) -> None:
         self.log.debug('Creating AvLabels object')
@@ -58,7 +60,7 @@ class AVclass(ServiceBase):
 
         return AVClassTags(avc_tags, self._av_labels.is_pup(tags, self._av_labels.taxonomy), family)
 
-    def execute(self, request: ServiceRequest) -> Dict[str, Any]:
+    def execute(self, request: ServiceRequest) -> Optional[Dict[str, Any]]:
         result = Result()
         request.result = result
 
