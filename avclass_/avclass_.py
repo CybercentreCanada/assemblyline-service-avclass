@@ -8,7 +8,7 @@ from assemblyline_v4_service.common.base import ServiceBase
 from assemblyline_v4_service.common.request import ServiceRequest
 from assemblyline_v4_service.common.result import Result, ResultSection, BODY_FORMAT, Heuristic
 
-from avclass.avclass2.lib.avclass2_common import SampleInfo, AvLabels
+from .avclass.avclass2.lib.avclass2_common import SampleInfo, AvLabels
 
 DATA_PATH = Path(resource_filename(__name__, 'data'))
 TAG_PATH = DATA_PATH/'avclass.tagging'

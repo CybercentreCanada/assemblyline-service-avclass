@@ -1,7 +1,6 @@
 name: AVclass
-version: 1
-description: >
-  Extracts malware family and details from AV labels
+version: $SERVICE_TAG
+description: Extracts malware family and details from AV labels
 
 accepts: .*
 rejects: empty|metadata/.*
@@ -13,7 +12,7 @@ file_required: false
 timeout: 10
 disable_cache: false
 
-enabled: true
+enabled: false
 is_external: false
 licence_count: 0
 
@@ -44,6 +43,5 @@ heuristics:
     description: AV labels indicate PUP
 
 docker_config:
-  image: ${REGISTRY}testing/assemblyline-service-avclass:latest
-  cpu_cores: 1.0
-  ram_mb: 256
+  image: ${REGISTRY}cccs/assemblyline-service-avclass:$SERVICE_TAG
+  cpu_cores: 0.25
