@@ -1,6 +1,6 @@
 FROM cccs/assemblyline-v4-service-base:latest
 
-ENV SERVICE_PATH avclass_.avclass_.AVclass
+ENV SERVICE_PATH avclass_.AVclass
 
 # Switch to assemblyline user
 USER assemblyline
