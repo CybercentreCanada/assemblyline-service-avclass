@@ -10,11 +10,6 @@ from assemblyline_v4_service.common.result import Result, ResultSection, BODY_FO
 
 from avclass.avclass2.lib.avclass2_common import SampleInfo, AvLabels
 
-AVC2_PATH = Path(resource_filename(__name__, 'avclass/avclass2'))
-DEFAULT_TAG_PATH = AVC2_PATH/'data/default.tagging'
-DEFAULT_EXP_PATH = AVC2_PATH/'data/default.expansion'
-DEFAULT_TAX_PATH = AVC2_PATH/'data/default.taxonomy'
-
 DATA_PATH = Path(resource_filename(__name__, 'data'))
 TAG_PATH = DATA_PATH/'avclass.tagging'
 EXP_PATH = DATA_PATH/'avclass.expansion'
