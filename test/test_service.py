@@ -16,7 +16,7 @@ samples = [
     dict(
         sid=1,
         metadata={},
-        service_name='cuckoo',
+        service_name='avclass',
         service_config={},
         fileinfo=dict(
             magic='ASCII text, with no line terminators',
