@@ -66,7 +66,6 @@ class AVclass(ServiceBase):
 
         tags = request.task.tags.get('av.virus_name')
         if not tags:
-            result.add_section(ResultSection('No AV labels'))
             return
 
         sample_info = SampleInfo(request.md5, request.sha1, request.sha256,
@@ -74,8 +73,6 @@ class AVclass(ServiceBase):
         self.log.debug(f'SampleInfo: {sample_info}')
         av_tags = self._get_avclass_tags(sample_info)
         if av_tags is None:
-            result.add_section(ResultSection('AVclass could not extract '
-                                             'family information'))
             return
 
         body = {'is_pup': av_tags.is_pup}
