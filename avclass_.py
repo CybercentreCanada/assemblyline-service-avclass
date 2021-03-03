@@ -2,6 +2,7 @@ import json
 from collections import namedtuple
 from pathlib import Path
 from typing import Optional, Dict, Any
+from itertools import groupby
 
 from pkg_resources import resource_filename
 
@@ -27,6 +28,7 @@ AVCLASS_CATEGORY = {
     'GEN': ('generic', None),
     'UNK': ('unknown', None),
 }
+AVCLASS_CATEGORY_ORDER = ['FAM', 'BEH', 'CLASS', 'FILE', 'GEN', 'UNK']
 
 
 class AVclass(ServiceBase):
@@ -83,24 +85,30 @@ class AVclass(ServiceBase):
             tags['attribution.family'] = [av_tags.family]
         else:
             title = 'AVclass was unable to extract a malware family'
-            body['family'] = av_tags.family
         section = ResultSection(title, json.dumps(body),
                                 body_format=BODY_FORMAT.KEY_VALUE,
                                 tags=tags)
 
-        for tag in av_tags.tags:
-            heur_id = AVCLASS_CATEGORY[tag.category][1]
+        for category, tag_group in groupby(sorted(av_tags.tags,
+                                                  key=lambda t: AVCLASS_CATEGORY_ORDER.index(t.category)),
+                                           key=lambda t: t.category):
+            tag_group = sorted(tag_group, key=lambda t: t.rank, reverse=True)
+            tag_table = [{'name': tag.name,
+                          'category': AVCLASS_CATEGORY[category][0],
+                          'path': tag.path,
+                          'rank': tag.rank}
+                         for tag in tag_group]
+            heur_id = AVCLASS_CATEGORY[category][1]
+
             tag_section = ResultSection(
-                f'AVclass extracted tag: {tag.name}',
-                body=json.dumps({'name': tag.name,
-                                 'category': AVCLASS_CATEGORY[tag.category][0],
-                                 'path': tag.path,
-                                 'rank': tag.rank}),
-                body_format=BODY_FORMAT.KEY_VALUE,
+                f'AVclass extracted {AVCLASS_CATEGORY[category][0]} tags',
+                body=json.dumps(tag_table),
+                body_format=BODY_FORMAT.TABLE,
                 heuristic=Heuristic(heur_id) if heur_id is not None else None)
 
-            if tag.category == 'BEH':
-                section.add_tag('file.behaviour', tag.name)
+            if category == 'BEH':
+                for tag in tag_group:
+                    tag_section.add_tag('file.behaviour', tag.name)
 
             section.add_subsection(tag_section)
 
