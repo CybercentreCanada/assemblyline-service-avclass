@@ -2,10 +2,10 @@ BEH:alertuser
 BEH:autorun
 BEH:browsermodify
 BEH:browsermodify:toolbar
-BEH:click
+BEH:clicks
 BEH:ddos
 BEH:defaulttab
-BEH:dial
+BEH:dials
 BEH:dnsmodify
 BEH:execdownload
 BEH:facebook
@@ -19,7 +19,7 @@ BEH:infosteal:gamethief
 BEH:inject
 BEH:irc
 BEH:jswebinject
-BEH:keylog
+BEH:keylogging
 BEH:killproc
 BEH:killproc:killsectool
 BEH:locationcheck
@@ -76,8 +76,8 @@ CLASS:worm
 CLASS:worm:emailworm
 FAM:1clickdownload
 FAM:4shared
+FAM:5wfo
 FAM:abeciv
-FAM:acad
 FAM:accutrack
 FAM:acecard
 FAM:activeinject
@@ -133,10 +133,8 @@ FAM:appsad
 FAM:appsgeyser
 FAM:appwiz
 FAM:aqplay
-FAM:ardurk
 FAM:asacub
 FAM:asprox
-FAM:astia
 FAM:autoins
 FAM:autosus
 FAM:axespy
@@ -164,7 +162,6 @@ FAM:bertle
 FAM:betterad
 FAM:bettersurf
 FAM:bgserv
-FAM:bibei
 FAM:bicololo
 FAM:bifrose
 FAM:biige
@@ -179,11 +176,9 @@ FAM:blueguard
 FAM:bmmedia
 FAM:boaxxe
 FAM:bobax
-FAM:bobic
 FAM:boogrdex
 FAM:boomp
 FAM:boqx
-FAM:botsiggen
 FAM:boyad
 FAM:bredolab
 FAM:brontok
@@ -191,7 +186,6 @@ FAM:browsefox
 FAM:bruad
 FAM:bublik
 FAM:bundlore
-FAM:burda
 FAM:buterat
 FAM:buzus
 FAM:buzztouch
@@ -202,17 +196,14 @@ FAM:callrecorder
 FAM:campys
 FAM:carberp
 FAM:cardserv
-FAM:cardst
 FAM:cashon
 FAM:cellshark
 FAM:centim
-FAM:centrumdownloader
 FAM:cerekv
 FAM:cheica
 FAM:chir
 FAM:chyapo
 FAM:cinmus
-FAM:cjcs
 FAM:cleaman
 FAM:clevernet
 FAM:clientor
@@ -223,7 +214,6 @@ FAM:cnzz
 FAM:coinhive
 FAM:coldfusion
 FAM:commplat
-FAM:comrerop
 FAM:conduit
 FAM:conficker
 FAM:contactscollector
@@ -235,7 +225,6 @@ FAM:cosmu
 FAM:cossta
 FAM:couponmarvel
 FAM:cova
-FAM:craunpirp
 FAM:cridex
 FAM:crossrider
 FAM:crusewind
@@ -263,7 +252,6 @@ FAM:defmid
 FAM:delbar
 FAM:deshacop
 FAM:detroie
-FAM:dexon
 FAM:dianjin
 FAM:dianle
 FAM:dianru
@@ -292,6 +280,7 @@ FAM:droiddream
 FAM:droiddreamlight
 FAM:droidkungfu
 FAM:droidsheep
+FAM:drolnux
 FAM:drolock
 FAM:dropdialer
 FAM:drosel
@@ -313,8 +302,8 @@ FAM:etumbot
 FAM:ewind
 FAM:expiro
 FAM:expressdownloader
+FAM:exrand
 FAM:faceniff
-FAM:fadok
 FAM:fakeangry
 FAM:fakeapp
 FAM:fakebank
@@ -348,11 +337,8 @@ FAM:feiad
 FAM:feiwo
 FAM:fengvi
 FAM:fenomengame
-FAM:fereda
 FAM:fictus
-FAM:fidameg
 FAM:finspy
-FAM:firewall
 FAM:firseria
 FAM:fjcon
 FAM:fkav
@@ -365,7 +351,6 @@ FAM:focobers
 FAM:fogo
 FAM:foncy
 FAM:forav
-FAM:forcestartpage
 FAM:fosniw
 FAM:framaroot
 FAM:freespy
@@ -386,10 +371,8 @@ FAM:ganlet
 FAM:gapev
 FAM:gappusin
 FAM:gato
-FAM:gator
 FAM:gbdialer
 FAM:gbqal
-FAM:geegly
 FAM:geinimi
 FAM:general
 FAM:gepew
@@ -425,8 +408,6 @@ FAM:hamad
 FAM:harnig
 FAM:hasdk
 FAM:haynu
-FAM:helpopy
-FAM:hematite
 FAM:hero
 FAM:hiddad
 FAM:hiddenapp
@@ -494,10 +475,10 @@ FAM:kapratect
 FAM:karagany
 FAM:kasidet
 FAM:katrep
+FAM:kefamad
 FAM:kelihos
 FAM:kgbspy
 FAM:kidlogger
-FAM:killluf
 FAM:kimia
 FAM:kingroot
 FAM:kirko
@@ -517,7 +498,6 @@ FAM:kurash
 FAM:kyhub
 FAM:kyview
 FAM:laconic
-FAM:lamer
 FAM:lardlond
 FAM:laroux
 FAM:ldpinch
@@ -539,11 +519,10 @@ FAM:locmg
 FAM:loic
 FAM:lolbot
 FAM:lollipop
-FAM:longage
 FAM:loodos
 FAM:looper
+FAM:loosemaque
 FAM:loozfon
-FAM:lotuseed
 FAM:lotusid
 FAM:lovefraud
 FAM:loveletter
@@ -553,11 +532,9 @@ FAM:lucky
 FAM:lxasj
 FAM:lynep
 FAM:mabezat
-FAM:macnist
 FAM:magiccasino
 FAM:mailcab
 FAM:maistealer
-FAM:malachite
 FAM:malwarescope
 FAM:mamianune
 FAM:mankess
@@ -577,7 +554,6 @@ FAM:meftadon
 FAM:megasearch
 FAM:memery
 FAM:menti
-FAM:metacol
 FAM:metasploit
 FAM:mgyun
 FAM:microjoin
@@ -589,6 +565,7 @@ FAM:minimob
 FAM:mirai
 FAM:mmarketpay
 FAM:mmaro
+FAM:mobby
 FAM:mobcent
 FAM:mobclick
 FAM:mobeleader
@@ -618,7 +595,6 @@ FAM:mseg
 FAM:mspy
 FAM:mtracker
 FAM:multibar
-FAM:multikey
 FAM:murofet
 FAM:mwiam
 FAM:mydoom
@@ -657,15 +633,12 @@ FAM:onlinegames
 FAM:opencandy
 FAM:openinstall
 FAM:opfake
-FAM:opinionspy
 FAM:optix
 FAM:outbrowse
 FAM:oveead
 FAM:paccy
-FAM:packedent
 FAM:palevo
 FAM:pandaad
-FAM:paranoidfish
 FAM:parite
 FAM:patacore
 FAM:paycall
@@ -698,7 +671,6 @@ FAM:pornvideo
 FAM:presenoker
 FAM:prorat
 FAM:prosti
-FAM:proxytracker
 FAM:pullupdate
 FAM:pupy
 FAM:purityscan
@@ -719,8 +691,8 @@ FAM:ranky
 FAM:rasteal
 FAM:razam
 FAM:rbot
+FAM:rdpkill
 FAM:rebhip
-FAM:recex
 FAM:recmads
 FAM:redalert
 FAM:rediassi
@@ -770,7 +742,6 @@ FAM:seaweth
 FAM:securityshield
 FAM:securityxploded
 FAM:senddroid
-FAM:settingsmodifier
 FAM:severs
 FAM:sfone
 FAM:shastrosms
@@ -803,7 +774,6 @@ FAM:smartfortress
 FAM:smcc
 FAM:smforw
 FAM:smishing
-FAM:smpfnvpk
 FAM:smsagent
 FAM:smsbomber
 FAM:smsbot
@@ -828,7 +798,6 @@ FAM:softonic
 FAM:softpulse
 FAM:sohanad
 FAM:sokmi
-FAM:solutions
 FAM:somoto
 FAM:sopes
 FAM:sosceo
@@ -856,7 +825,6 @@ FAM:steek
 FAM:stegvob
 FAM:stopsmsc
 FAM:stoqx
-FAM:storm
 FAM:strarpay
 FAM:styricka
 FAM:suaban
@@ -865,7 +833,6 @@ FAM:supking
 FAM:svpeng
 FAM:swisyn
 FAM:swizzor
-FAM:swog
 FAM:systemmonitor
 FAM:systush
 FAM:sytro
@@ -897,7 +864,6 @@ FAM:tinba
 FAM:tirrip
 FAM:tispy
 FAM:tocrenu
-FAM:toffus
 FAM:tofsee
 FAM:toga
 FAM:toggle
@@ -922,7 +888,6 @@ FAM:twetti
 FAM:txing
 FAM:typstu
 FAM:ultima
-FAM:ultra
 FAM:umpay
 FAM:uniblue
 FAM:unruy
@@ -968,7 +933,6 @@ FAM:wannalocker
 FAM:wapomi
 FAM:wapron
 FAM:warezov
-FAM:watch
 FAM:webalta
 FAM:webkey
 FAM:webprefix
@@ -977,12 +941,9 @@ FAM:whiteice
 FAM:whitesmoke
 FAM:wifikill
 FAM:winactivator
-FAM:winemmem
-FAM:winevar
 FAM:winfetcher
 FAM:winkad
 FAM:winpump
-FAM:winreanimator
 FAM:winwebsec
 FAM:wkload
 FAM:wooboo
@@ -990,15 +951,13 @@ FAM:wowlik
 FAM:wqmobile
 FAM:wroba
 FAM:wtaspin
-FAM:xaler
+FAM:wzteam
 FAM:xavierad
-FAM:xdisccorp
 FAM:xinhua
 FAM:xolco
 FAM:xorala
 FAM:xtrat
 FAM:xynyin
-FAM:yazz
 FAM:yeahmobi
 FAM:yekrand
 FAM:yoga
@@ -1009,7 +968,6 @@ FAM:yzhc
 FAM:zadmo
 FAM:zbot
 FAM:zdtad
-FAM:zeeborot
 FAM:zegost
 FAM:zenosearch
 FAM:zeroaccess
@@ -1029,7 +987,6 @@ FILE:bundle
 FILE:corrupted
 FILE:exploit
 FILE:exploit:asroot
-FILE:exploit:doidroot
 FILE:exploit:droidrt
 FILE:exploit:enoket
 FILE:exploit:exploid
@@ -1037,7 +994,6 @@ FILE:exploit:exynos
 FILE:exploit:fakeroot
 FILE:exploit:gingerbreak
 FILE:exploit:gxox
-FILE:exploit:master
 FILE:exploit:masterkey
 FILE:exploit:ratc
 FILE:exploit:rootor
@@ -1151,7 +1107,6 @@ GEN:genfamily:artemis
 GEN:genfamily:badur
 GEN:genfamily:barys
 GEN:genfamily:dapato
-GEN:genfamily:delf
 GEN:genfamily:eldorado
 GEN:genfamily:foreign
 GEN:genfamily:graftor
