@@ -16,30 +16,32 @@ enabled: false
 is_external: false
 licence_count: 0
 
+uses_tags: true
+
 heuristics:
   - heur_id: 1
     name: Malware family label
     score: 500
-    filetype: '*'
+    filetype: "*"
     description: AV labels identify malware family
 
   - heur_id: 2
     name: Malicious behaviour label
     score: 500
-    filetype: '*'
+    filetype: "*"
     description: AV labels indicate malicious behaviour
     max_score: 100
 
   - heur_id: 3
     name: Malware classification label
     score: 500
-    filetype: '*'
+    filetype: "*"
     description: AV labels indicate a malware classification
 
   - heur_id: 4
     name: PUP label
     score: 100
-    filetype: '*'
+    filetype: "*"
     description: AV labels indicate PUP
 
 docker_config:
