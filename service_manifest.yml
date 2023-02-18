@@ -1,5 +1,5 @@
-name: AVclass
 version: $SERVICE_TAG
+name: AVClass
 description: Extracts malware family and details from AV labels
 
 accepts: .*
@@ -26,10 +26,10 @@ heuristics:
     description: AV labels identify malware family
 
   - heur_id: 2
-    name: Malicious behaviour label
+    name: Malicious behavior label
     score: 500
     filetype: "*"
-    description: AV labels indicate malicious behaviour
+    description: AV labels indicate malicious behavior
     max_score: 100
 
   - heur_id: 3

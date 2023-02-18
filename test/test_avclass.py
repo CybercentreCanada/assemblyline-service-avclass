@@ -97,8 +97,8 @@ def remove_tmp_manifest():
 def target():
     create_tmp_manifest()
     try:
-        from avclass_ import AVclass
-        yield AVclass()
+        from avclass_service import AVClass
+        yield AVClass()
     finally:
         remove_tmp_manifest()
 
@@ -121,7 +121,7 @@ class TestModule:
 
     @staticmethod
     def test_path_constants():
-        from avclass_ import DATA_PATH, TAG_PATH, EXP_PATH, TAX_PATH
+        from avclass_service import DATA_PATH, TAG_PATH, EXP_PATH, TAX_PATH
         assert DATA_PATH.is_dir()
         assert TAG_PATH.is_file()
         assert TAG_PATH.name.endswith('.tagging')
@@ -132,7 +132,7 @@ class TestModule:
 
     @staticmethod
     def test_module_constants():
-        from avclass_ import AVClassTag, AVClassTags, AVCLASS_CATEGORY, AVCLASS_CATEGORY_ORDER
+        from avclass_service import AVClassTag, AVClassTags, AVCLASS_CATEGORY, AVCLASS_CATEGORY_ORDER
         AVClassTagT = namedtuple('AVClassTag', ['name', 'path', 'category', 'rank'])
         AVClassTagsT = namedtuple('AVClassTags', ['tags', 'is_pup', 'family'])
         assert check_equality_of_named_tuples(AVClassTagT, AVClassTag)
@@ -189,7 +189,7 @@ class TestAVClass:
     @staticmethod
     @pytest.mark.parametrize("category, tags", avclass_category_tags)
     def test_get_category_section(category, tags, target):
-        from avclass_ import AVClassTag, AVCLASS_CATEGORY
+        from avclass_service import AVClassTag, AVCLASS_CATEGORY
         from assemblyline_v4_service.common.result import BODY_FORMAT
         target.start()
 
@@ -213,7 +213,7 @@ class TestAVClass:
     @pytest.mark.parametrize("cat_counts, tags", avclass_tags)
     def test_get_category_sections(cat_counts, tags, target):
         target.start()
-        from avclass_ import AVClassTag, AVCLASS_CATEGORY, AVCLASS_CATEGORY_ORDER
+        from avclass_service import AVClassTag, AVCLASS_CATEGORY, AVCLASS_CATEGORY_ORDER
 
         sections = target._get_category_sections([AVClassTag(*t) for t in tags])
 
