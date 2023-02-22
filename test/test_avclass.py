@@ -5,12 +5,26 @@ import pytest
 import shutil
 from random import randint, shuffle
 
+from assemblyline.odm.messages.task import Task as ServiceTask
+from assemblyline_v4_service.common.request import ServiceRequest
+from assemblyline_v4_service.common.result import BODY_FORMAT
+from assemblyline_v4_service.common.task import Task
+
+from avclass_common import (
+    AVLabels,
+    Taxonomy,
+    Expansion,
+)
+from avclass_service import AVClass, AVClassTag, AVClassTags, AVCLASS_CATEGORY, AVCLASS_CATEGORY_ORDER, DATA_PATH, TAG_PATH, EXP_PATH, TAX_PATH
+
+
 # Getting absolute paths, names and regexes
 TEST_DIR = os.path.dirname(os.path.abspath(__file__))
 ROOT_DIR = os.path.dirname(TEST_DIR)
 SERVICE_CONFIG_NAME = "service_manifest.yml"
 SERVICE_CONFIG_PATH = os.path.join(ROOT_DIR, SERVICE_CONFIG_NAME)
 TEMP_SERVICE_CONFIG_PATH = os.path.join("/tmp", SERVICE_CONFIG_NAME)
+
 
 # Samples that we will be sending to the service
 samples = [
@@ -79,7 +93,6 @@ avclass_labels = [
             "poison",
             (
                 ("poison", "FAM:poison", "FAM", 3),
-                ("windows", "FILE:os:windows", "FILE", 3),
             ),
             False,
         ),
@@ -132,12 +145,12 @@ for i in range(10):
     shuffle(tags)
     avclass_tags.append((counts, tags))
 
-# Test parameters: Family name, is PUP
+# Test parameters: File type, Family name, is PUP, use Malpedia?
 avclass_results = [
-    (None, True),
-    (None, False),
-    ("emotet", True),
-    ("wapomi", False),
+    (None, None, True, False),
+    (None, None, False, False),
+    (None, "emotet", True, False),
+    (None, "wapomi", False, False),
 ]
 
 
@@ -158,8 +171,6 @@ def remove_tmp_manifest():
 def target():
     create_tmp_manifest()
     try:
-        from avclass_service import AVClass
-
         yield AVClass()
     finally:
         remove_tmp_manifest()
@@ -183,8 +194,6 @@ class TestModule:
 
     @staticmethod
     def test_path_constants():
-        from avclass_service import DATA_PATH, TAG_PATH, EXP_PATH, TAX_PATH
-
         assert DATA_PATH.is_dir()
         assert TAG_PATH.is_file()
         assert TAG_PATH.name.endswith(".tagging")
@@ -195,26 +204,19 @@ class TestModule:
 
     @staticmethod
     def test_module_constants():
-        from avclass_service import (
-            AVClassTag,
-            AVClassTags,
-            AVCLASS_CATEGORY,
-            AVCLASS_CATEGORY_ORDER,
-        )
-
         AVClassTagT = namedtuple("AVClassTag", ["name", "path", "category", "rank"])
         AVClassTagsT = namedtuple("AVClassTags", ["tags", "is_pup", "family"])
         assert check_equality_of_named_tuples(AVClassTagT, AVClassTag)
         assert check_equality_of_named_tuples(AVClassTagsT, AVClassTags)
         assert AVCLASS_CATEGORY == {
-            "FAM": ("family", 1, None),
-            "BEH": ("behavior", 2, "file.behavior"),
-            "CLASS": ("classification", 3, None),
+            "FAM": ("family", 1, "attribution.family"),
+            "CLASS": ("classification", 2, "attribution.category"),
+            "BEH": ("behavior", 3, "file.behavior"),
             "FILE": ("file", 4, None),
             "GEN": ("generic", None, None),
             "UNK": ("unknown", None, None),
         }
-        assert AVCLASS_CATEGORY_ORDER == ["FAM", "BEH", "CLASS", "FILE", "GEN", "UNK"]
+        assert AVCLASS_CATEGORY_ORDER == ["FAM", "CLASS", "BEH", "FILE", "GEN", "UNK"]
 
 
 class TestAVClass:
@@ -231,27 +233,10 @@ class TestAVClass:
         assert True
 
     @staticmethod
-    def test_start(target):
-        from avclass.avclass2.lib.avclass2_common import (
-            AVLabels,
-            Tagging,
-            Taxonomy,
-            Expansion,
-        )
-
-        assert target._av_labels is None
-        target.start()
-        assert isinstance(target._av_labels, AVLabels)
-        assert isinstance(target._av_labels.taxonomy, Taxonomy)
-        assert isinstance(target._av_labels.expansions, Expansion)
-        assert isinstance(target._av_labels.tagging, Tagging)
-        assert not target._av_labels.aliasdetect
-        assert target._av_labels.avs is None
-
-    @staticmethod
     @pytest.mark.parametrize("input, expected", avclass_labels)
     def test_get_avclass_tags(input, expected, target):
         target.start()
+        target._av_labels = AVLabels(*target.base_data)
         family, tags, is_pup = expected
 
         result = target._get_avclass_tags("md5", "sha1", "sha256", input)
@@ -264,9 +249,6 @@ class TestAVClass:
     @staticmethod
     @pytest.mark.parametrize("category, tags", avclass_category_tags)
     def test_get_category_section(category, tags, target):
-        from avclass_service import AVClassTag, AVCLASS_CATEGORY
-        from assemblyline_v4_service.common.result import BODY_FORMAT
-
         target.start()
 
         section = target._get_category_section(category, (AVClassTag(*t) for t in tags))
@@ -280,7 +262,7 @@ class TestAVClass:
         else:
             assert section.heuristic is not None
 
-        if category == "BEH":
+        if category in ["BEH", "FAM", "CLASS"]:
             assert len(section.tags) > 0
         else:
             assert len(section.tags) == 0
@@ -312,13 +294,11 @@ class TestAVClass:
             next(sections)
 
     @staticmethod
-    @pytest.mark.parametrize("family, is_pup", avclass_results)
-    def test_get_result_section(family, is_pup, target):
-        from assemblyline_v4_service.common.result import BODY_FORMAT
-
+    @pytest.mark.parametrize("file_type, family, is_pup, use_malpedia", avclass_results)
+    def test_get_result_section(file_type, family, is_pup, use_malpedia, target):
         target.start()
 
-        section = target._get_result_section(family, is_pup)
+        section = target._get_result_section(file_type, family, is_pup, use_malpedia)
         assert section.body_format == BODY_FORMAT.KEY_VALUE
         body = json.loads(section.body)
 
@@ -328,7 +308,7 @@ class TestAVClass:
         if family is not None:
             assert "extracted" in section.title_text
             assert "family" in body
-            assert body["family"] == family
+            assert body["family"].lower() == family
             assert section.tags.get("attribution.family", None) == [family]
         else:
             assert "unable to extract" in section.title_text
@@ -337,18 +317,23 @@ class TestAVClass:
     @staticmethod
     @pytest.mark.parametrize("sample", samples)
     def test_execute(sample, target):
-        # TODO: Break down the execute method to make it easily testable
-        from assemblyline_v4_service.common.task import Task
-        from assemblyline.odm.messages.task import Task as ServiceTask
-        from assemblyline_v4_service.common.request import ServiceRequest
+        target.start()
 
         service_task = ServiceTask(sample)
         task = Task(service_task)
+        task.service_config = {
+            "include_malpedia_dataset": False,
+        }
         target._task = task
         service_request = ServiceRequest(task)
 
         # Actually executing the sample
         target.execute(service_request)
+
+        assert isinstance(target._av_labels, AVLabels)
+        assert isinstance(target._av_labels.taxonomy, Taxonomy)
+        assert isinstance(target._av_labels.expansions, Expansion)
+        assert target._av_labels.avs is None
 
         # Get the result of execute() from the test method
         test_result = task.get_service_result()
