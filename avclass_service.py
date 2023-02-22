@@ -250,10 +250,10 @@ class AVClass(ServiceBase):
                         f"No valid {self.name} 'malpedia.json' file found at {rules[0]}"
                     )
             else:
-                raise Exception(
+                self.log.error(
                     "AVClass didn't process the Malpedia file. Check if the service can reach the updater."
                 )
         except Exception as e:
-            raise Exception(
+            self.log.error(
                 f"No valid {self.name} 'malpedia.json' file found. Reason: {e}"
             )
