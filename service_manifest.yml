@@ -1,12 +1,12 @@
+name: AVclass
 version: $SERVICE_TAG
-name: AVClass
 description: Extracts malware family and details from AV labels
 
 accepts: .*
 rejects: empty|metadata/.*
 
 stage: POST
-category: Antivirus
+category: Static Analysis
 
 file_required: false
 timeout: 10
@@ -18,12 +18,6 @@ licence_count: 0
 
 uses_tags: true
 
-submission_params:
-  - default: true
-    name: include_malpedia_dataset
-    type: bool
-    value: true
-
 heuristics:
   - heur_id: 1
     name: Malware family label
@@ -32,41 +26,24 @@ heuristics:
     description: AV labels identify malware family
 
   - heur_id: 2
+    name: Malicious behaviour label
+    score: 500
+    filetype: "*"
+    description: AV labels indicate malicious behaviour
+    max_score: 100
+
+  - heur_id: 3
     name: Malware classification label
     score: 500
     filetype: "*"
     description: AV labels indicate a malware classification
 
-  - heur_id: 3
-    name: Malicious behavior label
-    score: 500
-    filetype: "*"
-    description: AV labels indicate malicious behavior
-    max_score: 100
-
   - heur_id: 4
-    name: File identification label
+    name: PUP label
     score: 100
     filetype: "*"
-    description: AV labels indicate file type
+    description: AV labels indicate PUP
 
 docker_config:
   image: ${REGISTRY}cccs/assemblyline-service-avclass:$SERVICE_TAG
   cpu_cores: 0.25
-
-dependencies:
-  updates:
-    container:
-      allow_internet_access: true
-      command: ["python", "-m", "avclass_updater"]
-      image: ${REGISTRY}cccs/assemblyline-service-avclass:$SERVICE_TAG
-      ports: ["5003"]
-    run_as_core: True
-
-update_config:
-  generates_signatures: false
-  sources:
-    - name: malpedia
-      uri: https://malpedia.caad.fkie.fraunhofer.de/api/get/families?format=json
-  update_interval_seconds: 86400
-  wait_for_update: false
