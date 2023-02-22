@@ -17,6 +17,7 @@ is_external: false
 licence_count: 0
 
 uses_tags: true
+privileged: true
 
 submission_params:
   - default: true
