@@ -12,7 +12,7 @@ file_required: false
 timeout: 10
 disable_cache: false
 
-enabled: false
+enabled: true
 is_external: false
 licence_count: 0
 
