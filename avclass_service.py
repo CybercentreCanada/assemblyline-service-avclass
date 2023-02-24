@@ -202,7 +202,8 @@ class AVClass(ServiceBase):
         malpedia_names = self.importer.get_alt_names(family, file_type, use_malpedia)
         if malpedia_names:
             alt_names = list(set(alt_names + malpedia_names))
-        return alt_names.sort()
+        alt_names.sort()
+        return alt_names
 
     def execute(self, request: ServiceRequest) -> Optional[Dict[str, Any]]:
         # Create AVLabels object
