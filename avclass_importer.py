@@ -72,6 +72,7 @@ class AVClassImporter:
         return []
 
     def _check_type(self, family: AnyStr, file_type: AnyStr) -> Optional[str]:
+        prefix = None
         if "windows" in file_type:
             prefix = "win"
         else:
