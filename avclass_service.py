@@ -173,7 +173,9 @@ class AVClass(ServiceBase):
             body["family"] = common_name
             alt_names = self._get_alt_names(family, file_type, use_malpedia)
             if common_name.lower() != family:
-                alt_names.insert(family)
+                # This is the name that the common name is derived from, we should place it
+                # at the front of the alt_names list
+                alt_names.insert(0, family)
             if alt_names:
                 body["aka"] = ", ".join(alt_names)
             section_tags["attribution.family"] = [family]
@@ -195,6 +197,7 @@ class AVClass(ServiceBase):
     def _get_alt_names(
         self, family: AnyStr, file_type: AnyStr, use_malpedia: bool
     ) -> List:
+        # alt_names is an alphabetically sorted list of translated names and malpedia names
         translation = self.base_data[0]._src_map
         alt_names = [
             key.lower() for key, value in translation.items() if value == {family}
