@@ -28,26 +28,25 @@ submission_params:
 heuristics:
   - heur_id: 1
     name: Malware family label
-    score: 500
+    score: 0
     filetype: "*"
     description: AV labels identify malware family
 
   - heur_id: 2
     name: Malware classification label
-    score: 500
+    score: 0
     filetype: "*"
     description: AV labels indicate a malware classification
 
   - heur_id: 3
     name: Malicious behavior label
-    score: 500
+    score: 0
     filetype: "*"
     description: AV labels indicate malicious behavior
-    max_score: 100
 
   - heur_id: 4
     name: File identification label
-    score: 100
+    score: 0
     filetype: "*"
     description: AV labels indicate file type
 
