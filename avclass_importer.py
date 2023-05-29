@@ -1,9 +1,10 @@
 import json
 from copy import deepcopy
 from pathlib import Path
-from typing import AnyStr, Tuple, List, Optional
+from typing import AnyStr, List, Optional, Tuple
+
+from avclass_common import AVLabels, Expansion, Taxonomy, Translation
 from pkg_resources import resource_filename
-from avclass_common import Taxonomy, Translation, Expansion, AVLabels
 
 
 class AVClassImporter:

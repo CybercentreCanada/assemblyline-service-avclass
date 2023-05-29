@@ -1,22 +1,26 @@
-from collections import namedtuple
 import json
 import os
-import pytest
 import shutil
+from collections import namedtuple
 from random import randint, shuffle
 
+import pytest
 from assemblyline.odm.messages.task import Task as ServiceTask
 from assemblyline_v4_service.common.request import ServiceRequest
 from assemblyline_v4_service.common.result import BODY_FORMAT
 from assemblyline_v4_service.common.task import Task
-
-from avclass_common import (
-    AVLabels,
-    Taxonomy,
-    Expansion,
+from avclass_common import AVLabels, Expansion, Taxonomy
+from avclass_service import (
+    AVCLASS_CATEGORY,
+    AVCLASS_CATEGORY_ORDER,
+    DATA_PATH,
+    EXP_PATH,
+    TAG_PATH,
+    TAX_PATH,
+    AVClass,
+    AVClassTag,
+    AVClassTags,
 )
-from avclass_service import AVClass, AVClassTag, AVClassTags, AVCLASS_CATEGORY, AVCLASS_CATEGORY_ORDER, DATA_PATH, TAG_PATH, EXP_PATH, TAX_PATH
-
 
 # Getting absolute paths, names and regexes
 TEST_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -271,7 +275,7 @@ class TestAVClass:
     @pytest.mark.parametrize("cat_counts, tags", avclass_tags)
     def test_get_category_sections(cat_counts, tags, target):
         target.start()
-        from avclass_service import AVClassTag, AVCLASS_CATEGORY, AVCLASS_CATEGORY_ORDER
+        from avclass_service import AVCLASS_CATEGORY, AVCLASS_CATEGORY_ORDER, AVClassTag
 
         sections = target._get_category_sections([AVClassTag(*t) for t in tags])
 
