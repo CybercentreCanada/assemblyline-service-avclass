@@ -27,10 +27,8 @@ import operator
 import re
 import string
 import sys
-
 from collections import defaultdict, namedtuple
 from typing import AnyStr, Callable, Collection, Dict, List, Optional, Set, Tuple, Union
-
 
 logger = logging.getLogger(__name__)
 
