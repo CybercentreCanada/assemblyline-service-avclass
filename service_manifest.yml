@@ -3,7 +3,7 @@ name: AVClass
 description: Extracts malware family and details from AV labels
 
 accepts: .*
-rejects: empty|metadata/.*
+rejects: empty|metadata/.*|uri/.*
 
 stage: POST
 category: Antivirus
