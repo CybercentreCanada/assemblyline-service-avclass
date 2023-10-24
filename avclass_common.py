@@ -487,6 +487,10 @@ class Rules:
             dst_l = self.expand_src_destinations(src)
             self._src_map[src] = dst_l
 
+    @property
+    def src_map(self):
+        return self._src_map
+
 
 class Translation(Rules):
     """

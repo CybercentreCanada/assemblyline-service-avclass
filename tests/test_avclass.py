@@ -151,10 +151,10 @@ for i in range(10):
 
 # Test parameters: File type, Family name, is PUP, use Malpedia?
 avclass_results = [
-    (None, None, True, False),
-    (None, None, False, False),
-    (None, "emotet", True, False),
-    (None, "wapomi", False, False),
+    ("code/vbs", None, True, False),
+    ("code/vbs", None, False, False),
+    ("code/vbs", "emotet", True, False),
+    ("code/vbs", "wapomi", False, False),
 ]
 
 
@@ -317,6 +317,33 @@ class TestAVClass:
         else:
             assert "unable to extract" in section.title_text
             assert "family" not in body
+
+    @staticmethod
+    @pytest.mark.parametrize("file_type, family, _, use_malpedia", avclass_results)
+    def test_get_alt_names(file_type, family, _, use_malpedia, target):
+        target.start()
+
+        alt_names = target._get_alt_names(family, file_type, use_malpedia)
+        if family == "emotet":
+            assert alt_names == ["emotetcrypt", "geodo", "heodo"]
+        elif family == "wapomi":
+            assert alt_names == [
+                "bototer",
+                "jadtre",
+                "loorp",
+                "mikcer",
+                "nimnul",
+                "otwycal",
+                "pikor",
+                "pikorms",
+                "protil",
+                "qvod",
+                "simfect",
+                "vjadtre",
+                "wali",
+            ]
+        else:
+            assert alt_names == []
 
     @staticmethod
     @pytest.mark.parametrize("sample", samples)
