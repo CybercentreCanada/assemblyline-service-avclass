@@ -95,9 +95,7 @@ avclass_labels = [
         ],
         (
             "poison",
-            (
-                ("poison", "FAM:poison", "FAM", 3),
-            ),
+            (("poison", "FAM:poison", "FAM", 3),),
             False,
         ),
     ),
@@ -370,9 +368,7 @@ class TestAVClass:
         test_result = task.get_service_result()
 
         # Get the assumed "correct" result of the sample
-        correct_result_path = os.path.join(
-            TEST_DIR, "results", task.file_name + ".json"
-        )
+        correct_result_path = os.path.join(TEST_DIR, "results", task.file_name + ".json")
         with open(correct_result_path, "r") as f:
             correct_result = json.loads(f.read())
         f.close()

@@ -55,9 +55,7 @@ class AVClass(ServiceBase):
         if self.importer:
             self.external_data = self.importer.update_avlabels(*self.base_data)
 
-    def _get_avclass_tags(
-        self, md5: str, sha1: str, sha256: str, labels: List[str]
-    ) -> Optional[AVClassTags]:
+    def _get_avclass_tags(self, md5: str, sha1: str, sha256: str, labels: List[str]) -> Optional[AVClassTags]:
         """
         Gets AVClass tags from a list of AV labels.
 
@@ -67,9 +65,7 @@ class AVClass(ServiceBase):
         :param labels: AV labels from "av.virus_name" result tags
         :return: `AVClassTags` or `None` if no tags were extracted
         """
-        sample_info = SampleInfo(
-            md5, sha1, sha256, [(f"av{i}", label) for i, label in enumerate(labels)], []
-        )
+        sample_info = SampleInfo(md5, sha1, sha256, [(f"av{i}", label) for i, label in enumerate(labels)], [])
         self.log.debug(f"SampleInfo: {sample_info}")
 
         tokens = self._av_labels.get_sample_tags(sample_info)
@@ -77,10 +73,7 @@ class AVClass(ServiceBase):
         if not tags:
             return None
 
-        avc_tags = tuple(
-            AVClassTag(tag, *self._av_labels.taxonomy.get_info(tag), rank)
-            for tag, rank in tags
-        )
+        avc_tags = tuple(AVClassTag(tag, *self._av_labels.taxonomy.get_info(tag), rank) for tag, rank in tags)
 
         # Extract malware family name
         families = sorted(
@@ -90,13 +83,9 @@ class AVClass(ServiceBase):
         )
         family = families[0][0] if families else None
 
-        return AVClassTags(
-            avc_tags, self._av_labels.is_pup(tags, self._av_labels.taxonomy), family
-        )
+        return AVClassTags(avc_tags, self._av_labels.is_pup(tags, self._av_labels.taxonomy), family)
 
-    def _get_category_section(
-        self, category: str, tags: Iterator[AVClassTag]
-    ) -> ResultSection:
+    def _get_category_section(self, category: str, tags: Iterator[AVClassTag]) -> ResultSection:
         """
         Gets a `ResultSection` for a list of tags from a single category.
 
@@ -187,14 +176,10 @@ class AVClass(ServiceBase):
         )
         return section
 
-    def _get_alt_names(
-        self, family: AnyStr, file_type: AnyStr, use_malpedia: bool
-    ) -> List:
+    def _get_alt_names(self, family: AnyStr, file_type: AnyStr, use_malpedia: bool) -> List:
         # alt_names is an alphabetically sorted list of translated names and malpedia names
         translation = self.base_data[0]._src_map
-        alt_names = [
-            key.lower() for key, value in translation.items() if value == {family}
-        ]
+        alt_names = [key.lower() for key, value in translation.items() if value == {family}]
         malpedia_names = self.importer.get_alt_names(family, file_type, use_malpedia)
         if malpedia_names:
             alt_names = list(set(alt_names + malpedia_names))
@@ -217,16 +202,12 @@ class AVClass(ServiceBase):
             return
 
         # Extract AVClass tags
-        av_tags = self._get_avclass_tags(
-            request.md5, request.sha1, request.sha256, av_labels
-        )
+        av_tags = self._get_avclass_tags(request.md5, request.sha1, request.sha256, av_labels)
         if av_tags is None:
             return
 
         # Build results
-        section = self._get_result_section(
-            request.file_type, av_tags.family, av_tags.is_pup, use_malpedia
-        )
+        section = self._get_result_section(request.file_type, av_tags.family, av_tags.is_pup, use_malpedia)
         for tag_section in self._get_category_sections(av_tags.tags):
             section.add_subsection(tag_section)
 
@@ -243,14 +224,8 @@ class AVClass(ServiceBase):
                 if Path(rules[0]).exists():
                     self.start(rules[0])
                 else:
-                    self.log.error(
-                        f"No valid {self.name} 'malpedia.json' file found at {rules[0]}"
-                    )
+                    self.log.error(f"No valid {self.name} 'malpedia.json' file found at {rules[0]}")
             else:
-                self.log.error(
-                    "AVClass didn't process the Malpedia file. Check if the service can reach the updater."
-                )
+                self.log.error("AVClass didn't process the Malpedia file. Check if the service can reach the updater.")
         except Exception as e:
-            self.log.error(
-                f"No valid {self.name} 'malpedia.json' file found. Reason: {e}"
-            )
+            self.log.error(f"No valid {self.name} 'malpedia.json' file found. Reason: {e}")
