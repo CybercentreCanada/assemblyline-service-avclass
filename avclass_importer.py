@@ -42,9 +42,7 @@ class AVClassImporter:
                 self.actors[name] = actors
         return (translations, expansions, taxonomy)
 
-    def get_actors(
-        self, family: AnyStr, file_type: AnyStr, use_malpedia: bool = True
-    ) -> List:
+    def get_actors(self, family: AnyStr, file_type: AnyStr, use_malpedia: bool = True) -> List:
         if use_malpedia:
             name = self._check_type(family, file_type)
             if name:
@@ -53,18 +51,14 @@ class AVClassImporter:
                 return self.actors[family]
         return []
 
-    def get_common_name(
-        self, family: AnyStr, file_type: AnyStr, use_malpedia: bool = True
-    ) -> AnyStr:
+    def get_common_name(self, family: AnyStr, file_type: AnyStr, use_malpedia: bool = True) -> AnyStr:
         if use_malpedia:
             name = self._check_type(family, file_type)
             if name:
                 return self._malpedia[name]["common_name"]
         return family.title()
 
-    def get_alt_names(
-        self, family: AnyStr, file_type: AnyStr, use_malpedia: bool = True
-    ) -> List:
+    def get_alt_names(self, family: AnyStr, file_type: AnyStr, use_malpedia: bool = True) -> List:
         if use_malpedia:
             name = self._check_type(family, file_type)
             if name:

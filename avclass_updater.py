@@ -20,9 +20,7 @@ class AVClassUpdateServer(ServiceUpdater):
         default_classification: str = None,
     ):
         assert len(files_sha256) == 1
-        shutil.move(
-            files_sha256[0][0], os.path.join(self.latest_updates_dir, f"{source}.json")
-        )
+        shutil.move(files_sha256[0][0], os.path.join(self.latest_updates_dir, f"{source}.json"))
         self.log.info(f"Finished moving {source}.json to {self.latest_updates_dir}")
         return
 
