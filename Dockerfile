@@ -11,6 +11,10 @@ RUN apt-get update && apt-get install -y git && rm -rf /var/lib/apt/lists/*
 # Switch to assemblyline user
 USER assemblyline
 
+# Install python dependencies
+COPY requirements.txt requirements.txt
+RUN pip install --no-cache-dir --user --requirement requirements.txt && rm -rf ~/.cache/pip
+
 # Copy service code
 WORKDIR /opt/al_service
 COPY . .
