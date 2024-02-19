@@ -52,7 +52,7 @@ heuristics:
 
 docker_config:
   image: ${REGISTRY}cccs/assemblyline-service-avclass:$SERVICE_TAG
-  cpu_cores: 1
+  cpu_cores: 0.25
 
 dependencies:
   updates:
@@ -61,6 +61,7 @@ dependencies:
       command: ["python", "-m", "avclass_updater"]
       image: ${REGISTRY}cccs/assemblyline-service-avclass:$SERVICE_TAG
       ports: ["5003"]
+      cpu_cores: 2
     run_as_core: True
 
 update_config:

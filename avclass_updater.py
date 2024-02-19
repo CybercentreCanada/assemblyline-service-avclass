@@ -2,7 +2,6 @@ import os
 import shutil
 
 from assemblyline.common import forge
-from assemblyline_client.v4_client.client import Client as Client4
 from assemblyline_v4_service.updater.updater import ServiceUpdater
 
 classification = forge.get_classification()
@@ -15,7 +14,6 @@ class AVClassUpdateServer(ServiceUpdater):
     def import_update(
         self,
         files_sha256: str,
-        al_client: Client4,
         source: str,
         default_classification: str = None,
     ):
