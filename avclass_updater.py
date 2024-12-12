@@ -11,12 +11,7 @@ class AVClassUpdateServer(ServiceUpdater):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-    def import_update(
-        self,
-        files_sha256: str,
-        source: str,
-        default_classification: str = None,
-    ):
+    def import_update(self, files_sha256: str, source: str, *args, **kwargs):
         assert len(files_sha256) == 1
         shutil.move(files_sha256[0][0], os.path.join(self.latest_updates_dir, f"{source}.json"))
         self.log.info(f"Finished moving {source}.json to {self.latest_updates_dir}")
