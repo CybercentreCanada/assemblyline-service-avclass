@@ -9,14 +9,10 @@ from assemblyline.odm.messages.task import Task as ServiceTask
 from assemblyline_v4_service.common.request import ServiceRequest
 from assemblyline_v4_service.common.result import BODY_FORMAT
 from assemblyline_v4_service.common.task import Task
-from avclass.common import AVLabels, Expansion, Taxonomy
+from avclass.common import AVLabels, Expansion, Taxonomy, DATA_PATH, EXP_PATH, TAG_PATH, TAX_PATH
 from avclass.avclass import (
     AVCLASS_CATEGORY,
     AVCLASS_CATEGORY_ORDER,
-    DATA_PATH,
-    EXP_PATH,
-    TAG_PATH,
-    TAX_PATH,
     AVClass,
     AVClassTag,
     AVClassTags,
