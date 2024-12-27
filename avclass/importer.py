@@ -3,7 +3,7 @@ from copy import deepcopy
 from pathlib import Path
 from typing import AnyStr, List, Optional, Tuple
 
-from avclass_common import AVLabels, Expansion, Taxonomy, Translation
+from avclass.common import AVLabels, Expansion, Taxonomy, Translation
 from pkg_resources import resource_filename
 
 

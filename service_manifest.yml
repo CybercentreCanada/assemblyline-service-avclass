@@ -1,21 +1,25 @@
-version: $SERVICE_TAG
 name: AVClass
-description: Extracts malware family and details from AV labels
+version: $SERVICE_TAG
+description: This service consumes Anti-Virus tags (`av.virus_name`) and extracts family, behavior, and platform information based on [AVClass2](https://github.com/malicialab/avclass/tree/master/avclass2).
 
+# Regex defining the types of files the service accepts and rejects
 accepts: .*
 rejects: empty|metadata/.*|uri/.*
 
+# At which stage the service should run (one of FILTER, EXTRACT, CORE, SECONDARY, POST, REVIEW)
+# NOTE: Stages are executed in the order defined in the list
 stage: POST
+# Which category the service is part of (one of Antivirus, Dynamic Analysis, External, Extraction, Filtering, Internet Connected, Networking, Static Analysis)
 category: Antivirus
 
-file_required: false
-timeout: 10
-disable_cache: false
+# Does the service require access to the file to perform its task
+# If set to false, the service will only have access to the file metadata (e.g. Hashes, size, type, ...)
+file_required: true
+# Maximum execution time the service has before it's considered to be timed out
+timeout: 60
 
+# is the service enabled by default
 enabled: true
-is_external: false
-licence_count: 0
-
 uses_tags: true
 privileged: true
 
@@ -58,7 +62,7 @@ dependencies:
   updates:
     container:
       allow_internet_access: true
-      command: ["python", "-m", "avclass_updater"]
+      command: ["python", "-m", "avclass.update_server"]
       image: ${REGISTRY}cccs/assemblyline-service-avclass:$SERVICE_TAG
       ports: ["5003"]
       cpu_cores: 2

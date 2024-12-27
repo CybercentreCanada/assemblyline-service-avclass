@@ -285,11 +285,7 @@ class Taxonomy:
 
         :return: Set of platformn tags
         """
-        return {
-            tag.name
-            for _, tag in self._tag_map.items()
-            if tag.path.startswith(platform_prefix)
-        }
+        return {tag.name for _, tag in self._tag_map.items() if tag.path.startswith(platform_prefix)}
 
     def overlaps(self, t1: AnyStr, t2: AnyStr) -> bool:
         """
@@ -303,9 +299,7 @@ class Taxonomy:
         m2 = self.get_prefix_l(t2)
         return t1 in m2 or t2 in m1
 
-    def remove_overlaps(
-        self, l: Collection[AnyStr]
-    ) -> Union[Collection[AnyStr], List[AnyStr]]:
+    def remove_overlaps(self, l: Collection[AnyStr]) -> Union[Collection[AnyStr], List[AnyStr]]:
         """
         Returns list with overlapping tags removed
 
@@ -375,9 +369,7 @@ class Rules:
         """
         return len(self._src_map)
 
-    def add_rule(
-        self, src: AnyStr, dst_l: Collection[AnyStr] = None, overwrite: bool = False
-    ):
+    def add_rule(self, src: AnyStr, dst_l: Collection[AnyStr] = None, overwrite: bool = False):
         """
         Add a rule to the map.  On duplicate, append destinations.  If ``overwrite`` is set, replace rule src/dst.
 
@@ -586,10 +578,7 @@ class AVLabels:
         elif data_type == "md":
             return self.get_sample_info_md
         else:
-            sys.stderr.write(
-                "Invalid data type for sample: %s (should be vt, vt2, vt3, lb, md)"
-                % data_type
-            )
+            sys.stderr.write("Invalid data type for sample: %s (should be vt, vt2, vt3, lb, md)" % data_type)
             return self.get_sample_info_vt_v3
 
     @staticmethod
@@ -612,9 +601,7 @@ class AVLabels:
         :param record: The JSON record
         :return: An instance of SampleInfo
         """
-        return SampleInfo(
-            record["md5"], record["sha1"], record["sha256"], record["av_labels"], []
-        )
+        return SampleInfo(record["md5"], record["sha1"], record["sha256"], record["av_labels"], [])
 
     @staticmethod
     def get_sample_info_vt_v2(record: Dict) -> SampleInfo:
@@ -637,9 +624,7 @@ class AVLabels:
         for av, res in scans.items():
             if res["detected"]:
                 label = res["result"]
-                clean_label = "".join(
-                    filter(lambda x: x in string.printable, label)
-                ).strip()
+                clean_label = "".join(filter(lambda x: x in string.printable, label)).strip()
                 label_pairs.append((av, clean_label))
 
         vt_tags = record.get("tags", [])
@@ -669,9 +654,7 @@ class AVLabels:
         for av, res in scans.items():
             label = res["result"]
             if label is not None:
-                clean_label = "".join(
-                    filter(lambda x: x in string.printable, label)
-                ).strip()
+                clean_label = "".join(filter(lambda x: x in string.printable, label)).strip()
                 label_pairs.append((av, clean_label))
 
         vt_tags = record["attributes"].get("tags", [])
@@ -699,9 +682,7 @@ class AVLabels:
         for av, res in scans.items():
             label = res["threat_found"]
             if label is not None and res["scan_result_i"] == 1:
-                clean_label = "".join(
-                    filter(lambda x: x in string.printable, label)
-                ).strip()
+                clean_label = "".join(filter(lambda x: x in string.printable, label)).strip()
                 label_pairs.append((av, clean_label))
 
         return SampleInfo(md5, sha1, sha256, label_pairs, [])
@@ -883,15 +864,13 @@ class AVLabels:
             return len(sample_info.labels)
         else:
             cnt = 0
-            for (av_name, label) in sample_info.labels:
+            for av_name, label in sample_info.labels:
                 if av_name in self.avs:
                     cnt += 1
             return cnt
 
     @staticmethod
-    def rank_tags(
-        av_dict: Dict[AnyStr, List[AnyStr]], threshold: int = 1
-    ) -> List[Tuple[AnyStr, int]]:
+    def rank_tags(av_dict: Dict[AnyStr, List[AnyStr]], threshold: int = 1) -> List[Tuple[AnyStr, int]]:
         """
         Get a list of tuples containing a tag and the number of AV that confirmed that tag sorted by number of AV
         (descending).

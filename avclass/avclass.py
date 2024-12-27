@@ -7,8 +7,8 @@ from typing import Any, AnyStr, Dict, Iterator, List, Optional
 from assemblyline_v4_service.common.base import ServiceBase
 from assemblyline_v4_service.common.request import ServiceRequest
 from assemblyline_v4_service.common.result import BODY_FORMAT, Heuristic, Result, ResultSection
-from avclass_common import AVLabels, Expansion, SampleInfo, Taxonomy, Translation
-from avclass_importer import AVClassImporter
+from avclass.common import AVLabels, Expansion, SampleInfo, Taxonomy, Translation
+from avclass.importer import AVClassImporter
 from pkg_resources import resource_filename
 
 DATA_PATH = Path(resource_filename(__name__, "data"))
