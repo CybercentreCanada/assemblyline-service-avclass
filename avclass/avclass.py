@@ -7,15 +7,18 @@ from typing import Any, AnyStr, Dict, Iterator, List, Optional
 from assemblyline_v4_service.common.base import ServiceBase
 from assemblyline_v4_service.common.request import ServiceRequest
 from assemblyline_v4_service.common.result import BODY_FORMAT, Heuristic, Result, ResultSection
-from avclass.common import AVLabels, Expansion, SampleInfo, Taxonomy, Translation
+from avclass.common import (
+    AVLabels,
+    Expansion,
+    SampleInfo,
+    Taxonomy,
+    Translation,
+    TAG_PATH,
+    EXP_PATH,
+    TAX_PATH,
+    MAL_PATH,
+)
 from avclass.importer import AVClassImporter
-from pkg_resources import resource_filename
-
-DATA_PATH = Path(resource_filename(__name__, "data"))
-TAG_PATH = DATA_PATH / "avclass.tagging"
-EXP_PATH = DATA_PATH / "avclass.expansion"
-TAX_PATH = DATA_PATH / "avclass.taxonomy"
-MAL_PATH = DATA_PATH / "malpedia.json"
 
 AVClassTag = namedtuple("AVClassTag", ["name", "path", "category", "rank"])
 AVClassTags = namedtuple("AVClassTags", ["tags", "is_pup", "family"])

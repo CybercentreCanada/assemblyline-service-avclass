@@ -1,10 +1,8 @@
 import json
 from copy import deepcopy
-from pathlib import Path
 from typing import AnyStr, List, Optional, Tuple
 
 from avclass.common import AVLabels, Expansion, Taxonomy, Translation
-from pkg_resources import resource_filename
 
 
 class AVClassImporter:
@@ -82,11 +80,7 @@ class AVClassImporter:
 
 
 if __name__ == "__main__":
-    DATA_PATH = Path(resource_filename(__name__, "data"))
-    TAG_PATH = DATA_PATH / "avclass.tagging"
-    EXP_PATH = DATA_PATH / "avclass.expansion"
-    TAX_PATH = DATA_PATH / "avclass.taxonomy"
-    MAL_PATH = DATA_PATH / "malpedia.json"
+    from avclass.common import TAG_PATH, EXP_PATH, TAX_PATH, MAL_PATH
 
     base_data = (Translation(TAG_PATH), Expansion(EXP_PATH), Taxonomy(TAX_PATH))
     importer = AVClassImporter(MAL_PATH)

@@ -24,11 +24,19 @@ SOFTWARE.
 
 import logging
 import operator
+import os
 import re
 import string
 import sys
 from collections import defaultdict, namedtuple
 from typing import AnyStr, Callable, Collection, Dict, List, Optional, Set, Tuple, Union
+from pathlib import Path
+
+DATA_PATH = Path(os.path.realpath(os.path.join(os.path.dirname(__file__), "..", "data")))
+TAG_PATH = DATA_PATH / "avclass.tagging"
+EXP_PATH = DATA_PATH / "avclass.expansion"
+TAX_PATH = DATA_PATH / "avclass.taxonomy"
+MAL_PATH = DATA_PATH / "malpedia.json"
 
 logger = logging.getLogger(__name__)
 
