@@ -269,7 +269,7 @@ class TestAVClass:
     @pytest.mark.parametrize("cat_counts, tags", avclass_tags)
     def test_get_category_sections(cat_counts, tags, target):
         target.start()
-        from avclass_service import AVCLASS_CATEGORY, AVCLASS_CATEGORY_ORDER, AVClassTag
+        from avclass.avclass import AVCLASS_CATEGORY, AVCLASS_CATEGORY_ORDER, AVClassTag
 
         sections = target._get_category_sections([AVClassTag(*t) for t in tags])
 
