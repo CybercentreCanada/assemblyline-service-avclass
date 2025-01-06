@@ -8,7 +8,6 @@
       "__svc_name": "avclass",
       "__repository": "assemblyline-service-avclass",
       "__pkg_name": "avclass",
-      "__class_name": "Avclass",
       "short_description": "This service consumes Anti-Virus tags (`av.virus_name`) and extracts family, behavior, and platform information based on [AVClass2](https://github.com/malicialab/avclass/tree/master/avclass2).",
       "short_description_fr": "Ce service consomme des balises antivirus (`av.virus_name`) et extrait des informations sur la famille, le comportement et la plate-forme en se basant sur [AVClass2](https://github.com/malicialab/avclass/tree/master/avclass2).",
       "stage": "POST",
@@ -16,7 +15,8 @@
       "org_name_full": "CybercentreCanada",
       "org_name_short": "cccs",
       "license": "mit",
-      "_template": "https://github.com/CybercentreCanada/assemblyline-service-template.git"
+      "_template": "https://github.com/CybercentreCanada/assemblyline-service-template.git",
+      "class_name": "Avclass"
     }
   },
   "directory": null
