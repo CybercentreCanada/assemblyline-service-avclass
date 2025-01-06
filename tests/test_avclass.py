@@ -9,14 +9,10 @@ from assemblyline.odm.messages.task import Task as ServiceTask
 from assemblyline_v4_service.common.request import ServiceRequest
 from assemblyline_v4_service.common.result import BODY_FORMAT
 from assemblyline_v4_service.common.task import Task
-from avclass_common import AVLabels, Expansion, Taxonomy
-from avclass_service import (
+from avclass.common import AVLabels, Expansion, Taxonomy, DATA_PATH, EXP_PATH, TAG_PATH, TAX_PATH
+from avclass.avclass import (
     AVCLASS_CATEGORY,
     AVCLASS_CATEGORY_ORDER,
-    DATA_PATH,
-    EXP_PATH,
-    TAG_PATH,
-    TAX_PATH,
     AVClass,
     AVClassTag,
     AVClassTags,
@@ -273,7 +269,7 @@ class TestAVClass:
     @pytest.mark.parametrize("cat_counts, tags", avclass_tags)
     def test_get_category_sections(cat_counts, tags, target):
         target.start()
-        from avclass_service import AVCLASS_CATEGORY, AVCLASS_CATEGORY_ORDER, AVClassTag
+        from avclass.avclass import AVCLASS_CATEGORY, AVCLASS_CATEGORY_ORDER, AVClassTag
 
         sections = target._get_category_sections([AVClassTag(*t) for t in tags])
 
