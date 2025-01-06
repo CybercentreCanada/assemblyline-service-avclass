@@ -12,7 +12,7 @@
             "cwd": "${workspaceFolder}",
             "args": [
                 "-d",
-                "avclass.avclass.Avclass",
+                "avclass.avclass.AVClass",
                 "${file}"
             ],
             "justMyCode": false,

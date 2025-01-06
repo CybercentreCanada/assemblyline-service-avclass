@@ -42,7 +42,7 @@ This is an Assemblyline service. It is designed to run as part of the Assemblyli
 If you would like to test this service locally, you can run the Docker image directly from the a shell:
 
     docker run \
-        --name Avclass \
+        --name AVClass \
         --env SERVICE_API_HOST=http://`ip addr show docker0 | grep "inet " | awk '{print $2}' | cut -f1 -d"/"`:5003 \
         --network=host \
         cccs/assemblyline-service-avclass
@@ -91,7 +91,7 @@ Ce service est spécialement optimisé pour fonctionner dans le cadre d'un dépl
 Si vous souhaitez tester ce service localement, vous pouvez exécuter l'image Docker directement à partir d'un terminal:
 
     docker run \
-        --name Avclass \
+        --name AVClass \
         --env SERVICE_API_HOST=http://`ip addr show docker0 | grep "inet " | awk '{print $2}' | cut -f1 -d"/"`:5003 \
         --network=host \
         cccs/assemblyline-service-avclass
