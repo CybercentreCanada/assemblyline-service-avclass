@@ -14,7 +14,7 @@ category: Antivirus
 
 # Does the service require access to the file to perform its task
 # If set to false, the service will only have access to the file metadata (e.g. Hashes, size, type, ...)
-file_required: true
+file_required: false
 # Maximum execution time the service has before it's considered to be timed out
 timeout: 60
 
